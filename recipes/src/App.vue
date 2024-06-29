@@ -1,15 +1,17 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
+const a = ref()
+const options = ref(['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'])
+const b = (e: string) => {
+  console.log(e)
+}
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
     <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+      <q-select v-model="a" use-input :options="options" @input-value="b"></q-select>
     </div>
   </header>
 
