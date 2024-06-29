@@ -13,5 +13,11 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest'
+  },
+  rules: {
+    'no-console': ['warn'],
+    'no-unneeded-ternary': 'error',
+		'no-nested-ternary': 'error',
+		'vue/no-v-html': 'off'
   }
 }
