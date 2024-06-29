@@ -1,5 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import RecipeSearch from '@/components/RecipeSearch.vue'
+</script>
 
 <template>
-  <main></main>
+  <div>
+    <RecipeSearch />
+  </div>
 </template>
