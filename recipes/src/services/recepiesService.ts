@@ -4,7 +4,7 @@ import type {
   RecipeSearchQuery
 } from '@/models/utilTypes'
 import { apiClient } from './apiService'
-import { SEARCH_RESULTS_LENGTH } from '@/constants'
+import { AUTOCOMPLETE_RESULTS_LENGTH, SEARCH_RESULTS_LENGTH } from '@/constants'
 import type { RecipeAutocompleteResult, RecipeSearchResult } from '@/models/recipes'
 import type { RecipeInformation } from '@/models/recipesInformation'
 
@@ -25,7 +25,7 @@ export const getRecipesAutocomplete = async ({
 }: RecipeAutocompleteQuery): Promise<RecipeAutocompleteResult[]> => {
   const params: RecipeSearchQuery = {
     query,
-    number: SEARCH_RESULTS_LENGTH
+    number: AUTOCOMPLETE_RESULTS_LENGTH
   }
   const response = await apiClient.get('/recipes/autocomplete', {
     params
