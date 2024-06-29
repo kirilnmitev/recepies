@@ -8,10 +8,12 @@ import '@/styles/main.scss'
 
 import App from '@/App.vue'
 import router from '@/router'
+import { i18n } from './i18n'
 
 const myApp = createApp(App)
 
 myApp.use(router)
 myApp.use(Quasar, { iconSet: quasarIconSet, plugins: { Notify } })
+myApp.use(i18n)
 
 myApp.mount('#app')
