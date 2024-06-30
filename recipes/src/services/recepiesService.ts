@@ -44,9 +44,11 @@ export const getRecipesAutocomplete = async ({
 
 export const getRecipeInformation = async (id: number): Promise<RecipeInformation> => {
   const params: RecipeInformationQuery = {
-    id
+    includeNutrition: false,
+    addTasteData: false,
+    addWinePairing: false
   }
-  const response = await apiClient.get('/recipes/autocomplete', {
+  const response = await apiClient.get(`/recipes/${id}/information`, {
     params
   })
 

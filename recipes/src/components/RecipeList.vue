@@ -5,10 +5,11 @@ import RecipeCard from './RecipeCard.vue'
 import { PAGINATION_MAX_VISIBLE_PAGES, SEARCH_RESULTS_LENGTH } from '@/constants'
 import { computed } from 'vue'
 
-const { getRecipesList, getTotalResults, getOffset } = storeToRefs(useRecipesStore())
+const { getRecipesList, getTotalResults, getOffset, getIsRecipesListLoading } =
+  storeToRefs(useRecipesStore())
 const { setOffset, fetchRecipes } = useRecipesStore()
-const page = computed(() => Math.ceil(getOffset.value / SEARCH_RESULTS_LENGTH) + 1)
 
+const page = computed(() => Math.ceil(getOffset.value / SEARCH_RESULTS_LENGTH) + 1)
 const numberOfPages = computed(() => Math.ceil(getTotalResults.value / SEARCH_RESULTS_LENGTH))
 
 const handlePaginationChange = (newPageValue: number) => {
@@ -18,21 +19,29 @@ const handlePaginationChange = (newPageValue: number) => {
 </script>
 
 <template>
-  <div class="column col">
-    <div>
-      <q-pagination
-        v-model="page"
-        class="q-my-md"
-        text-color="accent"
-        :max-pages="PAGINATION_MAX_VISIBLE_PAGES"
-        :max="numberOfPages"
-        @update:model-value="handlePaginationChange"
-      ></q-pagination>
+  <div class="col">
+    <div
+      v-if="getIsRecipesListLoading"
+      class="full-height full-width flex justify-center items-center"
+    >
+      <q-spinner-tail color="primary" size="3rem" />
     </div>
+    <div v-else class="column col">
+      <div>
+        <q-pagination
+          v-model="page"
+          class="q-my-md"
+          text-color="accent"
+          :max-pages="PAGINATION_MAX_VISIBLE_PAGES"
+          :max="numberOfPages"
+          @update:model-value="handlePaginationChange"
+        ></q-pagination>
+      </div>
 
-    <div class="recipe-grid full-width">
-      <div v-for="recipe in getRecipesList" :key="recipe.id">
-        <RecipeCard :recipe="recipe" />
+      <div class="recipe-grid full-width">
+        <div v-for="recipe in getRecipesList" :key="recipe.id">
+          <RecipeCard :recipe="recipe" />
+        </div>
       </div>
     </div>
   </div>

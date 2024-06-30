@@ -105,7 +105,7 @@ export interface RecipeAutocompleteQuery {
 }
 
 export interface RecipeInformationQuery {
-  id: number
+  id?: number
   includeNutrition?: boolean
   addWinePairing?: boolean
   addTasteData?: boolean

@@ -1,16 +1,26 @@
 <script setup lang="ts">
 import type { RecipeSearch } from '@/models/recipes'
 import fallbackImage from '@/assets/default-fallback-image.png'
+import { useRouter } from 'vue-router'
+import { ROUTES } from '@/constants'
 
 const props = defineProps<{ recipe: RecipeSearch }>()
+const router = useRouter()
+
 const { recipe } = props
 
-const redirect = () => {}
+const redirect = () => {
+  router.push({ name: ROUTES.INFORMATION, params: { recipeId: recipe.id } })
+}
 </script>
 
 <template>
   <div class="card-styling">
-    <q-btn no-caps class="glassmorphism card-styling q-pa-sm full-height full-width">
+    <q-btn
+      no-caps
+      class="glassmorphism card-styling q-pa-sm full-height full-width"
+      @click="redirect"
+    >
       <div>
         <div class="img-wrapper q-mb-sm">
           <q-img :src="recipe.image" fit="contain" :error-src="fallbackImage" />
@@ -36,11 +46,6 @@ const redirect = () => {}
 
 .card-styling:hover {
   transform: scale(103%);
-}
-
-.img-wrapper {
-  border-radius: 0.7rem;
-  overflow: hidden;
 }
 
 .recipe-text-elipsis {

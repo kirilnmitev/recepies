@@ -1,3 +1,4 @@
+import { ROUTES } from '@/constants'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -10,13 +11,13 @@ const router = createRouter({
     },
     {
       path: '/recipes',
-      name: 'home',
+      name: ROUTES.HOME,
       component: () => import('@/views/HomeView.vue')
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('@/views/AboutView.vue')
+      path: '/recipes/:recipeId',
+      name: ROUTES.INFORMATION,
+      component: () => import('@/views/RecipeItem.vue')
     }
   ]
 })

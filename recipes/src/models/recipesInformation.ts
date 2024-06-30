@@ -5,14 +5,17 @@ export interface RecipeInformation {
   imageType: string
   servings: number
   readyInMinutes: number
-  license: string
   sourceName: string
   sourceUrl: string
   spoonacularSourceUrl: string
   healthScore: number
+  originalId: number | null
+  preparationMinutes: number
+  cookingMinutes: number
+  aggregateLikes: number
   spoonacularScore: number
   pricePerServing: number
-  analyzedInstructions: any[]
+  analyzedInstructions: AnalyzedInstruction[]
   cheap: boolean
   creditsText: string
   cuisines: string[]
@@ -21,7 +24,6 @@ export interface RecipeInformation {
   gaps: string
   glutenFree: boolean
   instructions: string
-  ketogenic: boolean
   lowFodmap: boolean
   occasions: string[]
   sustainable: boolean
@@ -29,18 +31,17 @@ export interface RecipeInformation {
   vegetarian: boolean
   veryHealthy: boolean
   veryPopular: boolean
-  whole30: boolean
   weightWatcherSmartPoints: number
   dishTypes: string[]
   extendedIngredients: ExtendedIngredient[]
   summary: string
-  winePairing: WinePairing
 }
 
 export interface ExtendedIngredient {
-  aisle: string
+  aisle: string | null
   amount: number
-  consitency: string
+  consistency: string
+  nameClean: string | null
   id: number
   image: string
   measures: {
@@ -62,12 +63,6 @@ export interface ExtendedIngredient {
   unit: string
 }
 
-export interface WinePairing {
-  pairedWines: string[]
-  pairingText: string
-  productMatches: WineProductMatch[]
-}
-
 export interface WineProductMatch {
   id: number
   title: string
@@ -78,4 +73,34 @@ export interface WineProductMatch {
   ratingCount: number
   score: number
   link: string
+}
+
+interface Equipment {
+  id: number
+  name: string
+  localizedName: string
+  image: string
+}
+
+interface Ingredient {
+  id: number
+  name: string
+  localizedName: string
+  image: string
+}
+
+interface Step {
+  number: number
+  step: string
+  ingredients: Ingredient[]
+  equipment: Equipment[]
+  length?: {
+    number: number
+    unit: string
+  }
+}
+
+export interface AnalyzedInstruction {
+  name: string
+  steps: Step[]
 }

@@ -1,3 +1,9 @@
 {
-  "error": "An error ocurred, please try again later"
+  "error": "An error ocurred, please try again later",
+  "us": "Imperial",
+  "metric": "Metric",
+  "ingredientsSection": "Ingredients",
+  "instructionsSection": "Instructions",
+  "instructions": "Simple",
+  "analyzedInstructions": "Detailed"
 }

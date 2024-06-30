@@ -4,7 +4,8 @@ import { getRecipesAutocomplete } from '@/services/recepiesService'
 import { useRecipesStore } from '@/stores/recipesStore'
 import { mdiSearchWeb } from '@quasar/extras/mdi-v4'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const currentInput = ref('')
 const searchQuery = ref('')
@@ -14,6 +15,7 @@ const isAutocompleteLoading = ref(false)
 
 const { fetchRecipes, setOffset, setQuery } = useRecipesStore()
 const { getQuery } = storeToRefs(useRecipesStore())
+const router = useRouter()
 
 const handleInputChange = (value: string) => {
   currentInput.value = value
@@ -30,6 +32,8 @@ const handleSelectEnter = (code?: string) => {
 
     setOffset(0)
     fetchRecipes()
+
+    router.push({ query: { search: currentInput.value, offset: 0 } })
   }
 }
 
@@ -65,6 +69,17 @@ const fetchAutocompleteOptions = (
         : [...allAutocompleteValues.value]
   })
 }
+
+const clearSearch = () => {
+  handleInputChange('')
+  handleSelectEnter()
+}
+
+onBeforeMount(async () => {
+  await router.isReady()
+  const { search } = router.currentRoute.value.query
+  handleInputChange(search?.toString() || '')
+})
 </script>
 
 <template>
@@ -84,9 +99,11 @@ const fetchAutocompleteOptions = (
       :options-dark="false"
       class="col-11 q-gutter-x-lg"
       popup-content-class="glassmorphism"
+      clearable
       @filter="fetchAutocompleteOptions"
       @input-value="handleInputChange"
       @keyup.stop="({ code }: KeyboardEvent) => handleSelectEnter(code)"
+      @clear="clearSearch"
     />
     <q-btn class="col-1" outline @click="() => handleSelectEnter()"
       ><q-icon :name="mdiSearchWeb"

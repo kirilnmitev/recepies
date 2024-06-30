@@ -10,9 +10,4 @@ import SearchBar from '@/components/SearchBar.vue'
   </div>
 </template>
 
-<style scoped>
-.home-page {
-  display: flex;
-  flex-direction: column;
-}
-</style>
+<style scoped></style>
