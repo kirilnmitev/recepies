@@ -1,5 +1,5 @@
 import { i18n } from '@/i18n'
-import { mdiCloseCircleOutline } from '@quasar/extras/mdi-v7'
+import { mdiAlertCircleOutline } from '@quasar/extras/mdi-v7'
 import axios from 'axios'
 import { Notify } from 'quasar'
 
@@ -20,7 +20,7 @@ apiClient.interceptors.response.use(
       Notify.create({
         color: 'negative',
         position: 'top-right',
-        icon: mdiCloseCircleOutline,
+        icon: mdiAlertCircleOutline,
         iconSize: '3rem',
         timeout: 3500,
         message: i18n.global.t('error')

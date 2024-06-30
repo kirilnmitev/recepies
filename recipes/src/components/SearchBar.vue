@@ -1,29 +1,35 @@
 <script setup lang="ts">
 import { AUTOCOMPLETE_START_LENGTH, ENTER_KEY_CODE } from '@/constants'
 import { getRecipesAutocomplete } from '@/services/recepiesService'
+import { useRecipesStore } from '@/stores/recipesStore'
 import { mdiSearchWeb } from '@quasar/extras/mdi-v4'
+import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 
 const currentInput = ref('')
 const searchQuery = ref('')
-const submittedQuery = ref('')
 const autocompleteSuggestions = ref<string[]>([])
 const allAutocompleteValues = ref<string[]>([])
 const isAutocompleteLoading = ref(false)
+
+const { fetchRecipes, setOffset, setQuery } = useRecipesStore()
+const { getQuery } = storeToRefs(useRecipesStore())
 
 const handleInputChange = (value: string) => {
   currentInput.value = value
   searchQuery.value = value
 }
 
-const handleSelectEnter = ({ code }: KeyboardEvent) => {
+const handleSelectEnter = (code?: string) => {
   if (
-    code === ENTER_KEY_CODE &&
-    isQueryInAutocompleteValues.value &&
-    submittedQuery.value.trim() !== currentInput.value.trim()
+    !currentInput.value ||
+    ((!code || code === ENTER_KEY_CODE) && getQuery.value.trim() !== currentInput.value.trim())
   ) {
     searchQuery.value = currentInput.value
-    submittedQuery.value = currentInput.value
+    setQuery(currentInput.value)
+
+    setOffset(0)
+    fetchRecipes()
   }
 }
 
@@ -80,9 +86,11 @@ const fetchAutocompleteOptions = (
       popup-content-class="glassmorphism"
       @filter="fetchAutocompleteOptions"
       @input-value="handleInputChange"
-      @keyup.stop="handleSelectEnter"
+      @keyup.stop="({ code }: KeyboardEvent) => handleSelectEnter(code)"
     />
-    <q-btn class="col-1" outline><q-icon :name="mdiSearchWeb" /></q-btn>
+    <q-btn class="col-1" outline @click="() => handleSelectEnter()"
+      ><q-icon :name="mdiSearchWeb"
+    /></q-btn>
   </div>
 </template>
 

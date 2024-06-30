@@ -3,13 +3,9 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div class="fullHeight">
+  <div class="full-height">
     <RouterView />
   </div>
 </template>
 
-<style scoped>
-.fullHeight {
-  height: 100%;
-}
-</style>
+<style scoped></style>
