@@ -7,7 +7,6 @@ import { storeToRefs } from 'pinia'
 import { computed, onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-const currentInput = ref('')
 const searchQuery = ref('')
 const autocompleteSuggestions = ref<string[]>([])
 const allAutocompleteValues = ref<string[]>([])
@@ -18,28 +17,23 @@ const { getQuery } = storeToRefs(useRecipesStore())
 const router = useRouter()
 
 const handleInputChange = (value: string) => {
-  currentInput.value = value
   searchQuery.value = value
 }
 
 const handleSelectEnter = (code?: string) => {
-  if (
-    !currentInput.value ||
-    ((!code || code === ENTER_KEY_CODE) && getQuery.value.trim() !== currentInput.value.trim())
-  ) {
-    searchQuery.value = currentInput.value
-    setQuery(currentInput.value)
+  if ((!code || code === ENTER_KEY_CODE) && getQuery.value.trim() !== searchQuery.value.trim()) {
+    setQuery(searchQuery.value)
 
     setOffset(0)
     fetchRecipes()
 
-    router.push({ query: { search: currentInput.value, offset: 0 } })
+    router.push({ query: { search: searchQuery.value, offset: 0 } })
   }
 }
 
 const isQueryInAutocompleteValues = computed(() =>
   allAutocompleteValues.value.some((val) =>
-    val.toLowerCase().includes(currentInput.value.trim().toLowerCase())
+    val.toLowerCase().includes(searchQuery.value.trim().toLowerCase())
   )
 )
 
@@ -71,14 +65,14 @@ const fetchAutocompleteOptions = (
 }
 
 const clearSearch = () => {
-  handleInputChange('')
+  searchQuery.value = ''
   handleSelectEnter()
 }
 
 onBeforeMount(async () => {
   await router.isReady()
   const { search } = router.currentRoute.value.query
-  handleInputChange(search?.toString() || '')
+  searchQuery.value = search?.toString() || ''
 })
 </script>
 
