@@ -65,14 +65,14 @@ const fetchAutocompleteOptions = (
 }
 
 const clearSearch = () => {
-  searchQuery.value = ''
+  handleInputChange('')
   handleSelectEnter()
 }
 
 onBeforeMount(async () => {
   await router.isReady()
   const { search } = router.currentRoute.value.query
-  searchQuery.value = search?.toString() || ''
+  handleInputChange(search?.toString() || '')
 })
 </script>
 
